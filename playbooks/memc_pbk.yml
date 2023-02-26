@@ -1,0 +1,54 @@
+---
+- hosts: '{{ target }}'
+  gather_facts: false
+  roles:
+    - common_handlers
+
+    - role: docker_compose_up
+      vars:
+        docker_compose_service: "{{ dc_service | default('') }}"
+        docker_compose_options: "{{ dc_options | default('-d') }}"
+        docker_compose_file_path: "{{ memc_dc_file_path | default(memc_dc_file_path) }}"
+      tags: ['dc_up_memc']
+      
+    - role: docker_compose_logs
+      vars:
+        docker_compose_service: "{{ dc_service | default(ccwr_workload) }}"
+        docker_compose_options: "{{ dc_options | default('--tail ' + tail_size|string) }}"
+        docker_compose_file_path: "{{ memc_dc_file_path }}"
+      tags: ['never', 'dc_logs_memc']
+      
+    - role: docker_compose_restart
+      vars:
+        docker_compose_service: "{{ dc_service | default(ccwr_workload) }}"
+        docker_compose_options: "{{ dc_options | default('') }}"
+        docker_compose_file_path: "{{ memc_dc_file_path }}"
+      tags: ['never','dc_restart_memc']
+
+    - role: docker_compose_start
+      vars:
+        docker_compose_service: "{{ dc_service | default(ccwr_workload) }}"
+        docker_compose_options: "{{ dc_options | default('') }}"
+        docker_compose_file_path: "{{ memc_dc_file_path }}"
+      tags: ['never', 'dc_start_memc']
+
+
+    - role: docker_compose_stop
+      vars:
+        docker_compose_service: "{{ dc_service | default(ccwr_workload) }}"
+        docker_compose_options: "{{ dc_options | default('') }}"
+        docker_compose_file_path: "{{ memc_dc_file_path }}"
+      tags: ['never', 'dc_stop_memc']
+
+    - role: docker_compose_down
+      vars:
+        docker_compose_options: "{{ dc_options | default('') }}"
+        docker_compose_file_path: "{{ memc_dc_file_path }}"
+      tags: ['never','dc_down_memc']
+
+    - role: docker_compose_rm
+      vars:
+        docker_compose_service: "{{ dc_service | default(ccwr_workload) }}"
+        docker_compose_options: "{{ dc_options | default('-f') }}"
+        docker_compose_file_path: "{{ memc_dc_file_path }}"
+      tags: ['never','dc_rm_memc']

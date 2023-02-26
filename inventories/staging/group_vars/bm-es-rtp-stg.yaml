@@ -1,4 +1,0 @@
-cluster_name: CCRC_ES_STG_CLUSTER_6_DC1
-rtp_seed_hosts: '["csssrch-stg-01.cisco.com:9373","csssrch-stg-02.cisco.com:9373","csssrch-stg-03.cisco.com:9373","csssrch-stg-04.cisco.com:9373","csssrch-stg-05.cisco.com:9373","csssrch-stg-06.cisco.com:9373"]'
-rtp_monitor_hosts: '["ccwr-ela-stg3-303:9200", "ccwr-ela-stg3-304:9200"]'
-ldap_url: "ldap://dsxstage.cisco.com:389"
