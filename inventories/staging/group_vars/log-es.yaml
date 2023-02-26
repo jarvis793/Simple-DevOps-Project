@@ -1,0 +1,27 @@
+---
+ccwr_lifecycle: stg
+ccwr_workload: log-es
+log_elastic_version: 7.17.0
+elasticsearch_home_dir: /usr/share/elasticsearch
+filebeat_workload_logs_dir: /var/log/elasticsearch
+filebeat_template_dir: '{{ ccwr_workload }}'
+
+template_files:
+  - { src: '{{ ccwr_workload }}/elasticsearch.yml.j2', dest: '{{ workload_work_dir }}/elasticsearch.yml', mode: '{{ default_mode }}'}
+  - { src: '{{ ccwr_workload }}/jvm.options.j2', dest: '{{ workload_work_dir }}/jvm.options', mode: '{{ default_mode }}'}
+  - { src: '{{ ccwr_workload }}/docker-compose.yml.j2', dest: '{{ workload_work_dir }}/docker-compose.yml', mode: '{{ default_mode }}'}
+  - { src: '{{ ccwr_workload }}/Dockerfile.j2', dest: '{{ workload_work_dir }}/Dockerfile', mode: '{{ default_mode }}'}
+  - { src: '{{ ccwr_workload }}/log4j2.properties.j2', dest: '{{ workload_work_dir }}/log4j2.properties', mode: '{{ default_mode }}'}
+
+es_http_port: 9201
+es_tcp_port: 9301
+es_minimum_master_nodes: 3
+
+es_jvm_ram: 8
+es_join_port: ':{{ es_tcp_port|string }}","'
+
+wait_for_delay: 5
+wait_for_timeout: 30
+
+logfile_format: log
+first_host: '{{ groups[cluster_name] | sort | first }}'

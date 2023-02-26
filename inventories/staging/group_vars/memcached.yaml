@@ -1,0 +1,26 @@
+---
+ccwr_lifecycle: stg
+apps_dir: /apps/
+ccwr_workload: memcached
+memcached_exporter: memcached-exporter
+filebeat: filebeat
+
+memc_dc_file_path: "{{ ansible_user_work_dir }}/{{ ccwr_workload }}"
+
+memc_exp_dc_file_path: "{{ ansible_user_work_dir }}/{{ memcached_exporter }}"
+
+filebeat_path_file: '{{ ansible_user_work_dir }}/{{ filebeat }}'
+template_files:
+  - { src: '{{ ccwr_workload }}/docker-compose.yml.j2', dest: '{{ memc_dc_file_path }}/docker-compose.yml', mode: '{{ default_mode }}'}
+  - { src: '{{ ccwr_workload }}/docker-compose.yml.exporter.j2', dest: '{{ memc_exp_dc_file_path }}/docker-compose.yml', mode: '{{ default_mode }}'}
+
+dir_path_list:
+  - { dir_path: '{{ memc_dc_file_path }}' }
+  - { dir_path: '{{ filebeat_path_file }}' }
+  - { dir_path: '{{ memc_exp_dc_file_path }}' }
+
+#MemcacheD Properties
+memc_image: bitnami/memcached:1.6.9
+memc_port: "11211:11211"
+
+memc_exp_image: bitnami/memcached-exporter:0

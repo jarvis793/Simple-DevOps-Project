@@ -1,0 +1,31 @@
+[memcached-rtp-az1]
+memcached3-101 ansible_host=ccwr-memc-stg3-1
+
+[memcached-rtp-az2]
+memcached3-102 ansible_host=ccwr-memc-stg3-2
+
+[memcached-rtp-az3]
+memcached3-103 ansible_host=ccwr-memc-stg3-3
+
+[memcached-rtp:children]
+memcached-rtp-az1
+memcached-rtp-az2
+memcached-rtp-az3
+
+[memcached-alln-az1]
+memcached2-101 ansible_host=ccwr-memc-stg2-1
+
+[memcached-alln-az2]
+memcached2-102 ansible_host=ccwr-memc-stg2-2
+
+[memcached-alln-az3]
+memcached2-103 ansible_host=ccwr-memc-stg2-3
+
+[memcached-alln:children]
+memcached-alln-az1
+memcached-alln-az2
+memcached-alln-az3
+
+[memcached:children]
+memcached-rtp
+memcached-alln

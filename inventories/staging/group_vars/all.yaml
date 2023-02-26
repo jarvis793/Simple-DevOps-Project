@@ -1,0 +1,40 @@
+---
+ansible_user: ccrccloudop
+image_registry: containers.cisco.com
+image_org: ccw_renewal
+container_name: '{{ ccwr_workload }}'
+service_name: '{{ ccwr_workload }}'
+image_tag: '{{ image_registry }}/{{ image_org }}/{{ image_repository }}:{{ image_version }}'
+ansible_user_work_dir: /apps/{{ ansible_user }}
+workload_work_dir: '{{ ansible_user_work_dir }}/{{ ccwr_workload }}'
+docker_compose_path: '{{ ansible_user_work_dir }}/docker-compose'
+workload_data_dir: /data/{{ ccwr_workload }}/data
+workload_log_dir: /data/logs
+filebeat_workload: filebeat
+filebeat_workload_dir: '{{ ansible_user_work_dir }}/{{ filebeat_workload }}'
+filebeat_docker_home_dir: /usr/share/filebeat
+filebeat_logs_host_mount: /data/filebeat/logs
+filebeat_data_host_mount: /data/filebeat/data
+dir_path_list:
+  - dir_path: '{{ workload_data_dir }}'
+  - dir_path: '{{ workload_log_dir }}'
+  - dir_path: '{{ workload_work_dir }}'
+  - dir_path: '{{ filebeat_workload_dir }}'
+  - dir_path: '{{ filebeat_logs_host_mount }}'
+  - dir_path: '{{ filebeat_data_host_mount }}'
+
+default_mode: 644
+dc_file_path: '{{ workload_work_dir }}'
+docker_username: ccw_renewal+ccw_robot
+docker_password: F727273YLFZDN2248XNHAYKCG8SRWQX30DRTC5YA610G29Q0RCHSCO7XEWG64X7K
+docker_all_containers: $(docker ps -a -q)
+docker_all_images: $(docker images -a -q)
+nrpe_workload: nrpe
+nrpe_workload_dir: '{{ ansible_user_work_dir }}/{{ nrpe_workload }}'
+nrpe_port: 5666
+nagios_host: ccwr-nagios-1.cisco.com
+nrpe_image: totem/docker-nrpe
+
+filebeat_es_cluster: log-es-rtp
+filebeat_es_port: 9201
+filebeat_es_port_join: ':{{ filebeat_es_port|string }}","'

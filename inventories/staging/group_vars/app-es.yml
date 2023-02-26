@@ -1,0 +1,18 @@
+---
+ccwr_workload: app-es
+
+data_dir: /data
+
+es_user: ccrccloudop
+
+filebeat_workload_dir: '{{ ansible_user_work_dir }}/{{ ccwr_workload }}/filebeat'
+
+filebeat_service_name: filebeat
+
+filebeat_path: '{{ ansible_user_work_dir }}/{{ filebeat_workload }}'
+filebeat_path_file: '{{ data_dir }}/*.log'
+
+ts1_monitor_hosts: '["ccwr-ela-stg3-301:9200", "ccwr-ela-stg3-302:9200"]'
+ts3_monitor_hosts: '["ccwr-ela-stg3-301:9200", "ccwr-ela-stg3-302:9200"]'
+
+ldap_url: "ldaps://dsxstage.cisco.com:636"
